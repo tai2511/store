@@ -46,17 +46,20 @@ class CartController extends Controller
 
     public function checkout()
     {
-        $total = 0;
+        $sum_total = 0;
         if(!empty(Session::get('user'))){
             $userId = Session::get('user')['id'];
             $total  = DB::table('carts')
             ->join('products','carts.product_id','=','products.id')
             ->where('carts.user_id',$userId)
-            ->sum(price);
+            ->get('price');
+            $sum_total = 0;
+            foreach($total as $price){
+                $sum_total += $price->price;
+            }
         }
-        
  
-        return view('pages.checkout',['total'=>$total]);
+        return view('pages.checkout',['total'=>$sum_total]);
     }
     public function order(Request $request)
     {
