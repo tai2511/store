@@ -52,7 +52,7 @@ class CartController extends Controller
             $total  = DB::table('carts')
             ->join('products','carts.product_id','=','products.id')
             ->where('carts.user_id',$userId)
-            ->sum('products.price');
+            ->sum('price');
         }
         
  
