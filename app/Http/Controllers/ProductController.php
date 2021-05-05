@@ -104,7 +104,7 @@ class ProductController extends Controller
     }
     static function cartItem()
     {
-        if(Session::get('user')['id'] != null){
+        if(!empty(Session::get('user')['id']) ){
             $user_id = Session::get('user')['id'];
             return Cart::where('user_id',$user_id)->count();
         }
