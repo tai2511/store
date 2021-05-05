@@ -72,7 +72,6 @@ class CartController extends Controller
             $order->user_id=$cart['user_id'];
             $order->status="pending";
             $order->payment_method=$request->payment;
-            $order->payment_status="pending";
             $order->address=$request->address;
             $order->save();
 

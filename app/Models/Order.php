@@ -16,7 +16,6 @@ class Order extends Model
         'user_id',
         'status',
         'payment_method',
-        'payment_status',
         'address'
     ];
 }
