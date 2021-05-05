@@ -17,70 +17,19 @@ class CartController extends Controller
      */
     public function index()
     {
-        $userId=Session::get('user')['id'];
+        $products = [];
+        if(!empty(Session::get('user'))){
+            $userId=Session::get('user')['id'];
 
-        $products= DB::table('carts')
-            ->join('products','carts.product_id','=','products.id')
-            ->where('carts.user_id',$userId)
-            ->select('products.*','carts.id as cart_id')
-            ->get();
+            $products= DB::table('carts')
+                ->join('products','carts.product_id','=','products.id')
+                ->where('carts.user_id',$userId)
+                ->select('products.*','carts.id as cart_id')
+                ->get();
 
+        }
+        
         return view('pages.cart',['products'=>$products]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
@@ -97,13 +46,17 @@ class CartController extends Controller
 
     public function checkout()
     {
-        $userId =Session::get('user')['id'];
-        $total  = DB::table('carts')
-         ->join('products','carts.product_id','=','products.id')
-         ->where('carts.user_id',$userId)
-         ->sum('products.price');
+        $total = 0;
+        if(!empty(Session::get('user'))){
+            $userId = Session::get('user')['id'];
+            $total  = DB::table('carts')
+            ->join('products','carts.product_id','=','products.id')
+            ->where('carts.user_id',$userId)
+            ->sum('products.price');
+        }
+        
  
-         return view('pages.checkout',['total'=>$total]);
+        return view('pages.checkout',['total'=>$total]);
     }
     public function order(Request $request)
     {
