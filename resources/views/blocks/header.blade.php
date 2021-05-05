@@ -1,6 +1,5 @@
 <?php
   use App\Http\Controllers\ProductController;
-  // use Session;
   $cart_item = ProductController::cartItem();
 ?>
 
